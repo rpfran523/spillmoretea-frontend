@@ -2,51 +2,37 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+  build_and_deploy:
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    timeout-minutes: 30
+    timeout-minutes: 30       # gives extra headroom for large sites
+
     steps:
+      # 1. Check out your code
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      
-      - name: Set up Node.js
+
+      # 2. Set up Node.js & install deps
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies and Build
-        run: |
-          npm install
-          npm run build
-      
-      - name: Build and Deploy
+          node-version: '18.x'
+      - name: Install Dependencies
+        run: npm ci
+
+      # 3. Build your Next.js app (uses next.config.js → output: 'export')
+      - name: Build App
+        run: npm run build
+
+      # 4. Deploy *only* the `out/` folder to Azure SWA
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_FOREST_0C4324B10 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: 'upload'                  # skip the Oryx build & only upload
           skip_app_build: true
-          app_artifact_location: "out"
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_FOREST_0C4324B10 }}
-          action: "close"
+          app_artifact_location: 'out'     # point to your static export folder
