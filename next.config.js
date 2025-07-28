@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // tell Next.js to produce a fully static export
-  output: 'export'
-};
+  output: 'export',
+  images: {
+    unoptimized: true
+  },
+  trailingSlash: true,
+  distDir: 'out',
+  assetPrefix: './'
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

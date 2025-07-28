@@ -14,6 +14,7 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,6 +30,8 @@ jobs:
         run: |
           npm install
           npm run build
+          ls -la
+          ls -la out/
       
       - name: Build And Deploy
         id: builddeploy
@@ -41,6 +44,8 @@ jobs:
           output_location: "out"
           api_location: ""
           skip_app_build: true
+          deployment_environment: production
+          verbose: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
