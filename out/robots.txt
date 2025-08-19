@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Important SEO files
-Sitemap: https://rpfran523.github.io/spillmoretea-frontend/sitemap.xml
+Sitemap: https://spillmoretea.com/sitemap.xml
 
 # Block admin/private areas (uncomment if needed)
 # Disallow: /admin/

@@ -17,15 +17,24 @@ jobs:
 
       # 2. Set up Node.js & install deps
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '20'
+          cache: 'npm'
+
       - name: Install Dependencies
         run: npm ci
 
-      # 3. Build your Next.js app (uses next.config.js → output: 'export')
+      # 3. Build your Next.js app with proper environment
       - name: Build App
         run: npm run build
+        env:
+          NODE_ENV: production
+          SITE_URL: https://spillmoretea.com
+
+      # 4. Add .nojekyll file for static assets
+      - name: Add .nojekyll file
+        run: touch out/.nojekyll
 
       # 4. Deploy *only* the `out/` folder to Azure SWA
       - name: Deploy to Azure Static Web Apps
