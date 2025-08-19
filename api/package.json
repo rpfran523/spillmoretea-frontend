@@ -1,0 +1,9 @@
+{
+  "name": "spillmoretea-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@azure/openai": "^1.0.0-beta.12"
+  }
+}

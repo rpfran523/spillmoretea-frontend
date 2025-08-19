@@ -65,7 +65,41 @@ spillmoretea-frontend/
 
 Choose your preferred hosting platform:
 
-### Option 1: Netlify
+### Azure Static Web Apps (Primary)
+
+This project is configured for Azure Static Web Apps with AI integration:
+
+1. **Create an Azure Static Web App** in the Azure Portal
+2. **Connect your GitHub repository** during creation
+3. **Set required application settings** in Azure Portal → Static Web App → Configuration:
+   - `AZURE_OPENAI_ENDPOINT` = `https://spillmoretea.openai.azure.com/` (replace with your endpoint)
+   - `AZURE_OPENAI_KEY` = Your Azure OpenAI API key (Key1 from Azure Portal)
+   - `AZURE_OPENAI_DEPLOYMENT` = Your model deployment name (e.g., `gpt-4o-mini`)
+   - `AZURE_OPENAI_API_VERSION` = `2024-02-15-preview` (optional, has default)
+4. **Add the API token secret** to GitHub repository secrets:
+   - Go to GitHub repo → Settings → Secrets and variables → Actions
+   - Add secret: `AZURE_STATIC_WEB_APPS_API_TOKEN` with value from Azure
+
+**Build Configuration:**
+- Build command: `npm run build` (CI runs this automatically)
+- Publish directory: `out`
+- API path: `/api/chat`
+
+**Local Testing After Deploy:**
+```javascript
+// Test in browser console after deployment
+fetch("/api/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    messages: [{ role: "user", content: "Say hi!" }]
+  })
+}).then(r => r.json()).then(console.log)
+```
+
+## 🌐 Alternative Deployment Options
+
+### Netlify (Alternative)
 
 1. **Connect your repository** to Netlify
 2. **Set build settings:**
@@ -77,7 +111,7 @@ Choose your preferred hosting platform:
 
 The included `netlify.toml` will handle the configuration automatically.
 
-### Option 2: Render (Static Site)
+### Render Static Site (Alternative)
 
 1. **Create a new Static Site** on Render
 2. **Connect your repository**
@@ -86,7 +120,7 @@ The included `netlify.toml` will handle the configuration automatically.
    - Publish Directory: `out`
 4. **Update the SITE_URL** in `render.yaml` to match your domain
 
-### Option 3: GitHub Pages
+### GitHub Pages (Alternative)
 
 1. **Enable GitHub Pages** for your repository:
    - Go to Settings → Pages
@@ -98,7 +132,7 @@ The included `netlify.toml` will handle the configuration automatically.
 
 The `.github/workflows/deploy.yml` handles the entire deployment process.
 
-### Option 4: Any Static Host
+### Any Static Host (Alternative)
 
 Since this generates a standard static site in `/out`, you can deploy to:
 - Vercel
@@ -183,3 +217,4 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 Made with 🍵 and ❤️ for tea lovers worldwide!
+
