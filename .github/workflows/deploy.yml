@@ -33,9 +33,14 @@ jobs:
         run: npm ci
 
       - name: Build with Next.js
-        run: SITE_URL=${{ vars.SITE_URL || 'https://spillmoretea.github.io' }} npm run build
+        run: npm run build
         env:
           NODE_ENV: production
+          GITHUB_PAGES: true
+          SITE_URL: ${{ vars.SITE_URL || 'https://rpfran523.github.io/spillmoretea-frontend' }}
+
+      - name: Add .nojekyll file
+        run: touch out/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
