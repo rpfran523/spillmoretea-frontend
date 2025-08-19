@@ -1,0 +1,4 @@
+Contact: https://spillmoretea.com/contact
+Preferred-Languages: en
+Canonical: https://spillmoretea.com/.well-known/security.txt
+Policy: https://spillmoretea.com/security-policy

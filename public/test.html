@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Test</title>
+</head>
+<body>
+    <h1>JavaScript Test Page</h1>
+    <div id="status">Checking JavaScript...</div>
+    <button onclick="testFunction()">Test Button</button>
+    
+    <script>
+        console.log("🚀 Basic JavaScript is running!");
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("📄 DOM loaded");
+            document.getElementById("status").innerHTML = "✅ JavaScript is working!";
+            
+            // Test WordPress API
+            console.log("🔄 Testing WordPress API...");
+            fetch("https://uan.vud.mybluehost.me/wp-json/wp/v2/posts")
+                .then(response => {
+                    console.log("📡 WordPress API response status:", response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("📰 WordPress posts received:", data.length);
+                    document.getElementById("status").innerHTML = `✅ JavaScript working! WordPress returned ${data.length} posts.`;
+                })
+                .catch(error => {
+                    console.error("❌ WordPress API error:", error);
+                    document.getElementById("status").innerHTML = `❌ JavaScript working, but WordPress error: ${error.message}`;
+                });
+        });
+        
+        function testFunction() {
+            console.log("🔘 Button clicked!");
+            alert("JavaScript is definitely working!");
+        }
+    </script>
+</body>
+</html>

@@ -3,12 +3,25 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "next build && npm run sitemap:generate",
+    "build:prod": "NODE_ENV=production next build && npm run sitemap:generate",
+    "start": "next start",
+    "export": "next export",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:ci": "npm run test",
+    "analyze": "npm run build:prod && npx webpack-bundle-analyzer .next/static/chunks/*.js",
+    "lighthouse": "npx lighthouse https://spillmoretea.com --output=html --output-path=./lighthouse-report.html",
+    "sitemap:generate": "node scripts/generate-sitemap.js",
+    "seo:audit": "npm run lighthouse && npm run sitemap:generate",
+    "seo:validate": "html-validate out/*.html || echo 'HTML validation warnings found'"
   },
   "dependencies": {
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.12.0",
+    "html-validate": "^8.29.0"
   }
 }

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Important SEO files
+Sitemap: https://spillmoretea.com/sitemap.xml
+
+# Block admin/private areas (uncomment if needed)
+# Disallow: /admin/
+# Disallow: /api/
+# Disallow: /_next/
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
