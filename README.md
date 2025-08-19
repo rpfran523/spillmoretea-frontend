@@ -72,10 +72,16 @@ This project is configured for Azure Static Web Apps with AI integration:
 1. **Create an Azure Static Web App** in the Azure Portal
 2. **Connect your GitHub repository** during creation
 3. **Set required application settings** in Azure Portal → Static Web App → Configuration:
-   - `AZURE_OPENAI_ENDPOINT` = `https://spillmoretea.openai.azure.com/` (replace with your endpoint)
+
+**Option A: Azure OpenAI (preferred when available)**
+   - `AZURE_OPENAI_ENDPOINT` = `https://spillmoretea.openai.azure.com/`
    - `AZURE_OPENAI_KEY` = Your Azure OpenAI API key (Key1 from Azure Portal)
    - `AZURE_OPENAI_DEPLOYMENT` = Your model deployment name (e.g., `gpt-4o-mini`)
-   - `AZURE_OPENAI_API_VERSION` = `2024-02-15-preview` (optional, has default)
+   - `AZURE_OPENAI_API_VERSION` = `2024-02-15-preview` (optional)
+
+**Option B: Regular OpenAI (fallback if Azure OpenAI access pending)**
+   - `OPENAI_API_KEY` = Your OpenAI API key (starts with sk-proj-)
+   - `OPENAI_MODEL` = `gpt-3.5-turbo` (optional, defaults to gpt-3.5-turbo)
 4. **Add the API token secret** to GitHub repository secrets:
    - Go to GitHub repo → Settings → Secrets and variables → Actions
    - Add secret: `AZURE_STATIC_WEB_APPS_API_TOKEN` with value from Azure
