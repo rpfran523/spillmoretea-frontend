@@ -1,0 +1,13 @@
+[build]
+command = "npm run build"
+publish = "out"
+
+# Environment variables for production
+[build.environment]
+NODE_ENV = "production"
+
+# Optional: Uncomment if you later add client-only routes:
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200

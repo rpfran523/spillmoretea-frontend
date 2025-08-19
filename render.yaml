@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: spillmoretea-frontend
+    env: static
+    buildCommand: "npm ci && npm run build"
+    staticPublishPath: "out"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SITE_URL
+        value: https://spillmoretea.onrender.com  # Update this to your actual domain

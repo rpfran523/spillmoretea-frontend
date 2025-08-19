@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const BASE_URL = process.env.SITE_URL || 'https://spillmoretea.com';
+const BASE_URL = process.env.SITE_URL || 'https://example.com';
 const BUILD_DIR = path.join(__dirname, '../out');
 
 // Define your routes/pages here - UPDATE THESE FOR YOUR SPILL MORE TEA SITE
