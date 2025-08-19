@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "route": "/api/*",
+      "allowedRoles": ["anonymous"]
+    },
+    {
       "route": "/*",
       "headers": {
         "X-Content-Type-Options": "nosniff",
@@ -10,10 +14,6 @@
         "Referrer-Policy": "strict-origin-when-cross-origin",
         "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
       }
-    },
-    {
-      "route": "/api/*",
-      "allowedRoles": ["anonymous"]
     },
     {
       "route": "/*.{js,css,png,jpg,jpeg,gif,ico,svg,woff,woff2,ttf,eot}",
