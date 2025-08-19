@@ -35,4 +35,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'                  # skip the Oryx build & only upload
           skip_app_build: true
-          app_artifact_location: 'out'     # point to your static export folder
+          app_location: '/'                 # App source code path
+          api_location: ''                  # API source code path - optional
+          output_location: 'out'            # Built app content directory
+        env:
+          IS_STATIC_EXPORT: true
