@@ -10,42 +10,25 @@ jobs:
     timeout-minutes: 30       # gives extra headroom for large sites
 
     steps:
-      # 1. Check out your code
       - uses: actions/checkout@v3
         with:
-          persist-credentials: false
-
-      # 2. Set up Node.js & install deps
-      - name: Setup Node.js
+          submodules: true
+          lfs: false
+      - name: Use Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      # 3. Build your Next.js app with proper environment
-      - name: Build App
-        run: npm run build
-        env:
-          NODE_ENV: production
-          SITE_URL: https://spillmoretea.com
-
-      # 4. Add .nojekyll file for static assets
-      - name: Add .nojekyll file
-        run: touch out/.nojekyll
-
-      # 4. Deploy *only* the `out/` folder to Azure SWA
-      - name: Deploy to Azure Static Web Apps
+          node-version: 20
+          cache: npm
+      - name: Install deps and build static site
+        run: |
+          npm ci
+          npm run build   # creates ./out via next export + sitemap
+      - name: Build And Deploy
+        id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WHITE_FOREST_0C4324B10 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: 'upload'                  # skip the Oryx build & only upload
-          skip_app_build: true
-          app_location: '/'                 # App source code path
-          api_location: ''                  # API source code path - optional
-          output_location: 'out'            # Built app content directory
-        env:
-          IS_STATIC_EXPORT: true
+          action: "upload"
+          app_location: "out"        # Upload the exported site
+          api_location: ""           # (none)
