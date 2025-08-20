@@ -1,0 +1,32 @@
+name: SWA Smoke Deploy
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tiny site
+        run: |
+          mkdir -p out
+          cat > out/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8"/>
+          <title>SpillMoreTea — smoke test</title>
+          <style>body{font:16px system-ui;margin:4rem auto;max-width:640px;padding:2rem}code{background:#f6f8fa;padding:.2em .4rem;border-radius:6px}h1{color:#2ea043}</style>
+          <h1>🎉 Smoke Test SUCCESS!</h1>
+          <p>This page was deployed by the <code>SWA Smoke Deploy</code> workflow.</p>
+          <p><strong>Timestamp:</strong> $(date)</p>
+          <p><strong>Commit:</strong> ${GITHUB_SHA}</p>
+          <p><strong>SWA:</strong> spillmoretea-frontend (white-forest)</p>
+          <hr>
+          <p>✅ <strong>Azure Static Web App connection is working!</strong></p>
+          <p>Next step: Deploy your real Next.js site.</p>
+          HTML
+
+      - name: Upload to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: out
